@@ -192,7 +192,7 @@ def multilayer_g(individual, data, list_of_single_layers, N=layer_size):
     G=[]
     for j in range(0,len(list_of_single_layers)):
         "j is running over all layers for a fixed individual i"
-        G.append(mx.from_numpy_matrix(layers[j][:,:,individual]))
+        G.append(mx.from_numpy_array(layers[j][:,:,individual]))
     
 # Define the type of interconnection between the layers
 
