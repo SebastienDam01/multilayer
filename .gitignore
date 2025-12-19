@@ -1,5 +1,5 @@
 # Outputs
-.csv
+*.csv
 
 # Environments
 .env
