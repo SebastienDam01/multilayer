@@ -4,7 +4,8 @@ from multilayer.utils import multilayer_g, muxviz_aggregate
 import multilayer.config as config
 
 def group_eigenvector_centrality(data, list_of_single_layers):
-    """Returns a flat list with the muxviz_aggregate output for EC, given a data, and a list_of_single_layers
+    """
+    Return a flat list with the muxviz_aggregate output for EC, given a data, and a list_of_single_layers.
 
     Parameters
     ----------
@@ -18,9 +19,7 @@ def group_eigenvector_centrality(data, list_of_single_layers):
     Returns
     -------
     out: An aggregate list which is the mean of the values of the EC per node in each layer
-
     """
-
     "This list will save all the eigenvector centralities for all individuals in all layers."
     name = list(data.keys())[-1]
     # fixed it!!!
@@ -48,7 +47,8 @@ def group_eigenvector_centrality(data, list_of_single_layers):
 # The functions below calculate mean and standard deviation of the measures
     
 def group_eigenvector_centrality_mean(data, list_of_single_layers):
-    """Returns a flat list with the aggregate output for group eigenvector centrality mean, given a data, and a list_of_single_layers
+    """
+    Return a flat list with the aggregate output for group eigenvector centrality mean, given a data, and a list_of_single_layers.
     
     Parameters
     ----------
@@ -63,9 +63,7 @@ def group_eigenvector_centrality_mean(data, list_of_single_layers):
     Returns
     -------
     out: An aggregate list which is the mean of the values of the eigenvector centralities per node in each layer
-   
     """
-    
     "This function returns the group eigenvector centrality mean for all individuals"
     name = list(data.keys())[-1]
     if len(data[name].shape)==2:
@@ -87,7 +85,8 @@ def group_eigenvector_centrality_mean(data, list_of_single_layers):
 
 
 def group_eigenvector_centrality_std(data, list_of_single_layers):
-    """Returns a flat list with the aggregate output for group eigenvector centrality standard deviation, given a data, and a list_of_single_layers
+    """
+    Return a flat list with the aggregate output for group eigenvector centrality standard deviation, given a data, and a list_of_single_layers.
     
     Parameters
     ----------
@@ -102,9 +101,7 @@ def group_eigenvector_centrality_std(data, list_of_single_layers):
     Returns
     -------
     out: An aggregate list which is the standard deviation of the eigenvector centralities per subject
-   
     """
-    
     "This function returns the group eigenvector centrality standard deviation for all individuals"
     
     name = list(data.keys())[-1]
@@ -128,13 +125,14 @@ def group_eigenvector_centrality_std(data, list_of_single_layers):
 
 
 def eigenvector_centrality(individual, data, list_of_single_layers):
-    """Returns a histogram with the values of the Eigenvector centrality for all nodes for a chosen individual."
+    """
+    Return a histogram with the values of the Eigenvector centrality for all nodes for a chosen individual.
+    
     Parameters
     ----------
     individual: an integer from [0, S-1], where S is the size of the cohort.
         
     data : A preloaded .mat  - Ex: supra_mst
-    
     
     list_of_layers: a list of numbers corresponding to the Multilayer you want to create - 
     Ex: If you want a Multilayer with fmri, pli_delta and pli theta, using the tags: 0=fmri', '1=pli delta', '2= pli theta'
@@ -143,9 +141,8 @@ def eigenvector_centrality(individual, data, list_of_single_layers):
     Returns
     -------
     out: A list with EC for one individual
-   
     """
-    print('layers =',[layer_tags[i] for i in list_of_single_layers])
+    print('layers =',[config.layer_tags[i] for i in list_of_single_layers])
     m = mx.eigenvector_centrality_numpy(multilayer_g(individual, data, list_of_single_layers))
     temp1 = list(m.values())
     temp2=muxviz_aggregate(temp1,len(list_of_single_layers))
