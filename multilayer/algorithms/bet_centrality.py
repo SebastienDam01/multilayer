@@ -1,7 +1,7 @@
 import multinetx as mx
-from multilayer.utils import multilayer_g, muxviz_aggregate
+from utils import multilayer_g, muxviz_aggregate
 
-def group_bet_centrality(data, list_of_single_layers):
+def group_bet_centrality(data, list_of_single_layers, N):
     """
     Return a flat list with the aggregate output for group betweeness centralities, given a data, and a list_of_single_layers.
     
@@ -27,7 +27,7 @@ def group_bet_centrality(data, list_of_single_layers):
 
     group_bet_centrality = []
     for individual in range(number_of_individuals):
-        temp = multilayer_g(individual,data,list_of_single_layers)
+        temp = multilayer_g(individual,data,list_of_single_layers, N)
 
         m = mx.betweenness_centrality(temp)
         #m=mx.eigenvector_centrality(multilayer_g(individual,number_of_layers,list_of_layers))

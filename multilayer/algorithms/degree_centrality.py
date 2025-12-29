@@ -1,9 +1,9 @@
 import numpy as np
 import multinetx as mx
-from multilayer.utils import multilayer_g, muxviz_aggregate
-import multilayer.config as config
+from utils import multilayer_g, muxviz_aggregate
+import config
 
-def group_degree_centrality(data, list_of_single_layers):
+def group_degree_centrality(data, list_of_single_layers, N):
     """
     Return a flat list with the aggregate output for group degree centrality, given a data, and a list_of_single_layers.
     
@@ -30,7 +30,7 @@ def group_degree_centrality(data, list_of_single_layers):
 
     group_deg_centrality = []
     for individual in range(number_of_individuals):
-        temp = multilayer_g(individual, data, list_of_single_layers)
+        temp = multilayer_g(individual, data, list_of_single_layers, N)
 
         m = mx.degree_centrality(temp)
         
@@ -45,7 +45,7 @@ def group_degree_centrality(data, list_of_single_layers):
         
     return flat_list
 
-def group_degree_centrality_mean(data,list_of_single_layers):
+def group_degree_centrality_mean(data,list_of_single_layers, N):
     """
     Return a flat list with the aggregate output for group degree centrality mean, given a data, and a list_of_single_layers.
     
@@ -75,7 +75,7 @@ def group_degree_centrality_mean(data,list_of_single_layers):
     "This list will save all the eigenvector centralities means for all individuals"
     group_degree_centrality_mean = []
     for individual in range(number_of_individuals):
-        m = mx.degree_centrality(multilayer_g(individual,data,list_of_single_layers))
+        m = mx.degree_centrality(multilayer_g(individual,data,list_of_single_layers, N))
         temp1 = list(m.values()) # this is not aggregated 
         temp2 = muxviz_aggregate(temp1, len(list_of_single_layers)) # This is Mux Viz aggregate
         #temp2=aggregate(temp1,len(list_of_single_layers))
@@ -85,7 +85,7 @@ def group_degree_centrality_mean(data,list_of_single_layers):
     return (group_degree_centrality_mean)
 
 
-def group_degree_centrality_std(data, list_of_single_layers):
+def group_degree_centrality_std(data, list_of_single_layers, N):
     """
     Return a flat list with the aggregate output for group degree centrality std, given a data, and a list_of_single_layers.
     
@@ -112,7 +112,7 @@ def group_degree_centrality_std(data, list_of_single_layers):
     "This list will save all the eigenvector centralities means for all individuals"
     group_degree_centrality_std = []
     for individual in range(number_of_individuals):
-        m = mx.degree_centrality(multilayer_g(individual, data, list_of_single_layers))
+        m = mx.degree_centrality(multilayer_g(individual, data, list_of_single_layers, N))
         temp1 = list(m.values())
         temp2 = muxviz_aggregate(temp1, len(list_of_single_layers))  # This is Mux Viz aggregate
         #temp2=aggregate(temp1,len(list_of_single_layers)) You can change the aggregate here

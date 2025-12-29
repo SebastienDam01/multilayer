@@ -1,7 +1,7 @@
 import multinetx as mx
-from multilayer.utils import multilayer_g, muxviz_aggregate
+from utils import multilayer_g, muxviz_aggregate
 
-def group_eccentricity(data, list_of_single_layers):
+def group_eccentricity(data, list_of_single_layers, N):
     """
     Return a flat list with the aggregate output for group eccentricity, given a data, and a list_of_single_layers.
     
@@ -27,7 +27,7 @@ def group_eccentricity(data, list_of_single_layers):
 
     group_eccentricity = []
     for individual in range(number_of_individuals):
-        temp = multilayer_g(individual, data, list_of_single_layers)
+        temp = multilayer_g(individual, data, list_of_single_layers, N)
         m = mx.eccentricity(temp)
         temp1 = list(m.values())
         temp2 = muxviz_aggregate(temp1, len(list_of_single_layers)) 
@@ -39,7 +39,7 @@ def group_eccentricity(data, list_of_single_layers):
     return flat_list
 
 
-def non_norm_group_eccentricity(data, list_of_single_layers):
+def non_norm_group_eccentricity(data, list_of_single_layers, N):
     """
     Return a flat list with the aggregate output for group eccentricity without normalization, given a data, and a list_of_single_layers.
     
@@ -65,7 +65,7 @@ def non_norm_group_eccentricity(data, list_of_single_layers):
 
     group_eccentricity = []
     for individual in range(number_of_individuals):
-        temp = multilayer_g(individual, data, list_of_single_layers)
+        temp = multilayer_g(individual, data, list_of_single_layers, N)
 
         m = mx.eccentricity(temp)
         temp1 = list(m.values())

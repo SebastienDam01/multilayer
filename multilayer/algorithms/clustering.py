@@ -1,7 +1,7 @@
 import multinetx as mx
-from multilayer.utils import multilayer_g, muxviz_aggregate
+from utils import multilayer_g, muxviz_aggregate
 
-def group_clustering(data, list_of_single_layers):
+def group_clustering(data, list_of_single_layers, N):
     """
     Return a flat list with the aggregate output for group clustering, given a data, and a list_of_single_layers.
     
@@ -27,7 +27,7 @@ def group_clustering(data, list_of_single_layers):
 
     group_clustering = []
     for individual in range(number_of_individuals):
-        temp = multilayer_g(individual, data, list_of_single_layers)
+        temp = multilayer_g(individual, data, list_of_single_layers, N)
 
         m = mx.clustering(temp)
         temp1 = list(m.values())

@@ -1,9 +1,12 @@
-import multilayer.config as config
+import config
 import numpy as np
+import pandas as pd
 import multinetx as mx
 
-def prepare_multilayer(data, list_of_layers, N=config.layer_size):
-    """Converts the data to a Multinetx friendly object based on the inputed data.
+def prepare_multilayer(data, list_of_layers, N):
+    """
+    Convert the data to a Multinetx friendly object based on the inputed data.
+    
     Parameters
     ----------
     data : A preloaded .mat  - Ex: supra_mst
@@ -19,7 +22,6 @@ def prepare_multilayer(data, list_of_layers, N=config.layer_size):
     Note: This is convenient - since we can have a database with all 14 layers, but we may want to study only a smaller number of layers.
     In short, the layers are based in the supra-adjacency matrices - but you can choose exactly the layers you want here"
     """
-
     # In the matlab file the element [-1] gives the matrices
     name = list(data.keys())[-1]
     if len(data[name].shape) == 2:
@@ -42,11 +44,12 @@ def prepare_multilayer(data, list_of_layers, N=config.layer_size):
 
 
 # This creates a multilayer network for each individual (This is the new one)
-def multilayer_g(individual, data, list_of_single_layers, N=config.layer_size):
-    """Creates a Multilayer graph object for an individual, given the data, and a list of layers.
+def multilayer_g(individual, data, list_of_single_layers, N):
+    """
+    Create a Multilayer graph object for an individual, given the data, and a list of layers.
+    
     Parameters
     ----------
-
     Individual: an integer from [0, S-1], where S is the size of the cohort.
 
     data : A preloaded .mat  - Ex: supra_mst
@@ -59,11 +62,9 @@ def multilayer_g(individual, data, list_of_single_layers, N=config.layer_size):
     Returns
     -------
     out: A Multilayer Object for a single individual in the data.
-
     """
-
     "Creates a multilayer for an individual i, knowing the number of layers, and the size of the layers"
-    layers = prepare_multilayer(data, list_of_single_layers)
+    layers = prepare_multilayer(data, list_of_single_layers, N)
     # N =197 # before was 205
     number_of_layers = len(list_of_single_layers)
     G = []
@@ -99,10 +100,11 @@ def multilayer_g(individual, data, list_of_single_layers, N=config.layer_size):
 # ATTENTION: THERE ARE SEVERAL OPTIONS HERE - WE ARE USING A SIMILAR AGGREGATION AS MUXVIZ (see http://muxviz.net/tutorial.php)
 # THIS IS AN INTERMEDIATE FUNCTION SO THAT THE OUTPUT OF THE OTHER FUNCTIONS IS PRINTED 'PER NODE'
 def muxviz_aggregate(multiple_layers_list, number_layers):
-    """Creates an aggregate output from a Multilayer Network, given a multiple_layers_list and the number of layers
+    """
+    Create an aggregate output from a Multilayer Network, given a multiple_layers_list and the number of layers.
+    
     Parameters
     ----------
-
     multiple_layers_list: output of a multilayer network metric
 
     number_layers: number of layers in the multilayer
@@ -122,3 +124,47 @@ def muxviz_aggregate(multiple_layers_list, number_layers):
     #        temp[sublists][i]=temp[sublists][i]/m
 
     return temp_mean
+
+# This function extracts data from specific nodes - e.g. FPN or DMN
+#### IMPROVEMENT: ALSO COMPUTE MEASURES WITHIN SPECIFIC SUBNETWORK IN THE FUTURE
+def mask_subnetwork(result, target, N):
+    """
+    Return a multilayer metric narrowed for a given list of nodes, which for our purposes are subnetworks.
+    
+    Parameters
+    ----------
+    result: A list with the results (output) of any of Multilayer functions in this code
+    
+    target : A list of target nodes of interest, e.g., nodes from DFN or FPN
+    
+    N: The layer size
+    
+    Returns
+    -------
+    out: A list for the results narrowed for the target nodes, i.e., If you say the target nodes for a given subnetwork, this function returns only the results of the list associated with the target nodes"
+    """
+    chunks = [result[x:x+N] for x in range(0, len(result), N)]
+    mask = [chunk[x] for chunk in chunks for x in target]
+    
+    return mask
+
+
+# This function saves data to a csv file
+def save_csv(data, name, tag):
+    """
+    Return a .csv file for further analysis using SPSS.
+    
+    Parameters
+    ----------
+    data: The desired data you want to save
+    name: The name of the file you want to save
+    tag: The tag for the variable/column in your .csv file
+    """
+    # Obs: Notice that if you want to get results only for a subnetwork, we should first do:
+    #data=mask_subnetwork(result,target)
+    #before saving this file
+    cols = [tag]
+    df = pd.DataFrame(data, columns=cols)
+    df.to_csv(name+'.csv')
+    
+    return

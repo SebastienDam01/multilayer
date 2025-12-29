@@ -19,6 +19,7 @@ __status__ = "Production"
 
 # Reviewed by Eduarda Centeno 20200909
 # Reviewed by Lucas Breedt 20201125
+# Reviewed by Sebastien Dam 20251229: a file to be removed
 
 
 ####################
@@ -43,26 +44,9 @@ import scipy.io
 from sklearn import preprocessing #version 0.21.3
 from sklearn.preprocessing import MinMaxScaler
 
-# Algorithms import
-from multilayer.algorithms.eigenvector_centrality import group_eigenvector_centrality
-from multilayer.algorithms.degree_centrality import group_degree_centrality
-
 import multilayer.config as config
 
 ################################################################################################################################
-
-#############################################
-# LOADING THE MATRICES                      #
-############################################# 
-
-# This is where the real data for computing all multilayer functions is loaded
-# Every function defined from now on uses these data as input
-
-# ATTENTION: THIS IS THE OBJECT THAT WILL BE USED FOR THE REMAINDER OF THE CODE!
-supra_mst = scipy.io.loadmat(config.filename)
-
-### IMPROVEMENT - INCLUDE VERBOSE FUNCTION TO MAKE CHECKS IN THE CODE
-
 
 #######################
 # SANITY CHECK        #
@@ -70,91 +54,6 @@ supra_mst = scipy.io.loadmat(config.filename)
 
 # ATTENTION: CHECK THE OUTPUT OF THESE LINES OF CODE TO ENSURE DATA IS LOADED CORRECTLY
 # Check that this is in fact a dicionary
-print(type(supra_mst))
+# print(type(supra_mst))
 # Check that the keys are correct
-print(supra_mst.keys())
-
-
-################################################################################################################################
-
-
-# FROM THIS POINT FORWARD, NO FURTHER USER MODIFICATION/INPUT IS REQUIRED.
-# This is where all of the functions are defined. None of these should require 
-# modification or user input - only the last function, function_output, is needed
-# for the user to calculate any multilayer network measure. Please also see the readme  
-
-######################
-# PLOTTING FUNCTIONS # 
-######################
-             
-
-###################
-# OTHER FUNCTIONS #
-###################
-    
-# This function extracts data from specific nodes - e.g. FPN or DMN
-#### IMPROVEMENT: ALSO COMPUTE MEASURES WITHIN SPECIFIC SUBNETWORK IN THE FUTURE
-def mask_subnetwork(result, target):
-    """Returns a multilayer metric narrowed for a given list of nodes, which for our purposes are subnetworks""
-    
-    Parameters
-    ----------
-    result: A list with the results (output) of any of Multilayer functions in this code
-    
-    target : A list of target nodes of interest, e.g., nodes from DFN or FPN
-    
-    Returns
-    -------
-    out: A list for the results narrowed for the target nodes, i.e., If you say the target nodes for a given subnetwork, this function returns only the results of the list associated with the target nodes"
-    """
-
-    chunks = [result[x:x+config.layer_size] for x in range(0, len(result), config.layer_size)]
-    mask = [chunk[x] for chunk in chunks for x in target]
-    
-    return mask
-
-
-# This function saves data to a csv file
-def save_csv(data, name, tag):
-    """Returns a .csv file for further analysis using SPSS
-    Parameters
-    ----------
-    data: The desired data you want to save
-    name: The name of the file you want to save
-    tag: The tag for the variable/column in your .csv file
-    """
-    # Obs: Notice that if you want to get results only for a subnetwork, we should first do:
-    #data=mask_subnetwork(result,target)
-    #before saving this file
-    cols = [tag]
-    df = pd.DataFrame(data, columns=cols)
-    df.to_csv(name+'.csv')
-    
-    return
-
-# ATTENTION: THIS IS THE ONLY FUNCTION THAT THE USER NEEDS TO CALCULATE ANY MULTILAYER
-# NETWORK MEASURE
-### IMPROVEMENT: create a boolean that does stuff when a mask is chosen or not
-def function_output(function, data, filename, colname, layers, N=config.layer_size):
-    """Returns the desired output for the MumoBrain database, or any other database organized similarly
-    
-    THIS IS PROBABLY THE MOST IMPORTANT FUNCTION FOR THE USER OF THIS CODE, SINCE EVERYTHING WAS BUILT TO REACH THIS STAGE HERE
-    
-    Parameters
-    ----------
-    function: One of the functions developed in this code for Multilayer Networks
-    data: The data we want to use: e.g., supra_mst
-    filename: The name of the file you want to save
-    colname: the name of the column tag in your file
-    layers: list of desired layers.
-
-    """
-    temp = function(data, layers)
-    #You should include the desired subnetwork here. Now we have the whole Network.
-    sub_net = list(range(0,N)) 
-    # Ex: If you want FPN, sub_net=[16,17,18,19,20,21,28,29,30,31,93,94,123,124,133,134,163,164]
-    
-    temp_sub_net = mask_subnetwork(temp, sub_net)
-    save_csv(temp_sub_net, filename, colname)
-    
-    return
+# print(supra_mst.keys())

@@ -1,8 +1,8 @@
 import matplotlib.pyplot as plt
 import multinetx as mx
-from multilayer.utils import multilayer_g, muxviz_aggregate
-import multilayer.config as config
-from multilayer.algorithms.eigenvector_centrality import group_eigenvector_centrality
+from utils import multilayer_g, muxviz_aggregate
+import config
+from algorithms.eigenvector_centrality import group_eigenvector_centrality
 
 def plot_group_ec(data, list_of_single_layers):
     """
