@@ -2,8 +2,8 @@ import sys
 
 import scipy
 
-import utils, viz, config
-from algorithms import bet_centrality, clustering, degree_centrality, eccentricity, eigenvector_centrality
+from . import utils, viz, config
+from .algorithms import bet_centrality, clustering, degree_centrality, eccentricity, eigenvector_centrality
 
 FUNCTIONS = {
     "group_bet_centrality": bet_centrality.group_bet_centrality,
@@ -47,8 +47,8 @@ def multilayer(function, data, filename, colname, layers, N):
     
     return
 
-def _main(argv=None):
-    from cli.run import _get_parser
+def main(argv=None):
+    from .cli.run import _get_parser
     
     options = _get_parser().parse_args(argv)
     
@@ -67,4 +67,4 @@ def _main(argv=None):
         multilayer(FUNCTIONS[options.function], Data, filename, colname, [i], options.layer_size)
 
 if __name__ == "__main__":
-    _main()
+    main()

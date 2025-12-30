@@ -1,5 +1,5 @@
 import multinetx as mx
-from utils import multilayer_g, muxviz_aggregate
+from multilayer.utils import multilayer_g, muxviz_aggregate
 
 def group_clustering(data, list_of_single_layers, N):
     """

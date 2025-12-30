@@ -1,7 +1,7 @@
 import numpy as np
 import multinetx as mx
-from utils import multilayer_g, muxviz_aggregate
-import config
+from multilayer import config
+from multilayer.utils import multilayer_g, muxviz_aggregate
 
 def group_eigenvector_centrality(data, list_of_single_layers, N):
     """
