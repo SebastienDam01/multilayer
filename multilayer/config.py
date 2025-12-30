@@ -1,30 +1,3 @@
-# from algorithms import bet_centrality, clustering, degree_centrality, eccentricity, eigenvector_centrality
-
-# FUNCTIONS = {
-#     "group_eigenvector_centrality": eigenvector_centrality.group_eigenvector_centrality,
-#     # TO DO
-# }
-
-# THE VARIABLES DEFINED BELOW NEED TO BE MODIFIED TO CORRESPOND WITH THE DATA OF THE USER.
-# Please see the comments in this code as well as the readme on Github for instructions on how
-# to use this code. Note that comments with more than one # should be ignored - they are for further developments.
-
-""" The user should define the input file (supra-adjacency matrix) in the beginning of the code. 
-The code is quite robust - as long as the matrices are created using a pipeline similar to the one in the Lab."""
-
-# ####################
-# # SETTINGS         #
-# ####################
-
-# # Sebastien DAM 20252912: These should probably go to an argument parser.
-
-# layer_size = 197   # Define the number of nodes per layer. We used the BNA, with some regions removed
-# weighted = False # We are now using MST matrices. Matrices are thus not weighted - if weighted, change to True
-
-# # Specify the the supra adjacency matrices here
-# # TRAINING RANDOM MATRIX
-# filename = 'supra_randmst.mat'
-
 # #########################################
 # # CREATING LAYER TAGS                   #
 # #########################################

@@ -67,7 +67,7 @@ def _get_parser():
         type=str,
         help=(
             "Multilayer function for the "
-            "calculation of multilayer network metrics."
+            "calculation of multilayer network metrics. "
             "Default is group_eigenvector_centrality"
         ),
         default="group_eigenvector_centrality",

@@ -6,8 +6,18 @@ import utils, viz, config
 from algorithms import bet_centrality, clustering, degree_centrality, eccentricity, eigenvector_centrality
 
 FUNCTIONS = {
+    "group_bet_centrality": bet_centrality.group_bet_centrality,
+    "group_clustering": clustering.group_clustering,
+    "group_degree_centrality": degree_centrality.group_degree_centrality,
+    "group_degree_centrality_mean": degree_centrality.group_degree_centrality_mean,
+    "group_degree_centrality_std": degree_centrality.group_degree_centrality_std,
+    "group_eccentricity": eccentricity.group_eccentricity, 
+    "non_norm_group_eccentricity": eccentricity.non_norm_group_eccentricity,
     "group_eigenvector_centrality": eigenvector_centrality.group_eigenvector_centrality,
-    # TO DO
+    "group_eigenvector_centrality_mean": eigenvector_centrality.group_eigenvector_centrality_mean,
+    "group_eigenvector_centrality_std": eigenvector_centrality.group_eigenvector_centrality_std,
+    "eigenvector_centrality": eigenvector_centrality.eigenvector_centrality,
+    
 }
 
 # ATTENTION: THIS IS THE ONLY FUNCTION THAT THE USER NEEDS TO CALCULATE ANY MULTILAYER
