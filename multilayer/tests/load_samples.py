@@ -46,14 +46,6 @@ def save_full_sample():
     })
     return
 
-def load_sample():
-    """Load a truncated sample data from a test file located in the test directory."""
-    return loadmat(mat_path("sample_data.mat"))
-
-def load_full_sample():
-    """Load a full sample data from a test file located in the test directory."""
-    return loadmat(mat_path("full_sample_data.mat"))
-
 def save_chain_graph(n=NODE_NUMBER):
     """
     Save an undirected chain graph with n nodes to a .mat file.
@@ -74,4 +66,17 @@ def save_chain_graph(n=NODE_NUMBER):
 def load_chain_graph(n=NODE_NUMBER):
     """Load a chain graph from a test file located in the test directory."""
     return loadmat(mat_path("chain_graph.mat"))
+
+def load_sample():
+    """Load a truncated sample data from a test file located in the test directory."""
+    return loadmat(mat_path("sample_data.mat"))
+
+def load_full_sample():
+    """Load a full sample data from a test file located in the test directory."""
+    return loadmat(mat_path("full_sample_data.mat"))
+
+def load_all_sample():
+    """Load all sample data from ~/supra_randmst.mat."""
+    return loadmat("supra_randmst.mat")
+
 

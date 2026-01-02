@@ -30,7 +30,7 @@ def group_eigenvector_centrality(data, list_of_single_layers, N):
         number_of_individuals = data[name].shape[2]
 
     group_eigenvector = []
-    for individual in range(number_of_individuals):
+    for individual in (range(number_of_individuals)):
         temp = multilayer_g(individual, data, list_of_single_layers, N)
 
         m = mx.eigenvector_centrality_numpy(temp)
