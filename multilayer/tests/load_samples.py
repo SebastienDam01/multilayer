@@ -53,3 +53,24 @@ def load_full_sample():
     """Load a full sample data from a test file located in the test directory."""
     return loadmat(test_path("full_sample_data.mat"))
 
+def save_chain_graph(n=NODE_NUMBER):
+    """
+    Save an undirected chain graph with n nodes to a .mat file.
+    
+    Parameter
+    ---------
+    n: Number of nodes
+    """
+    A = np.zeros((n, n), dtype=int)
+    
+    for i in range(n - 1):
+        A[i, i + 1] = 1
+        A[i + 1, i] = 1
+    
+    savemat(test_path("chain_graph.mat"), {"chain_graph": A})
+    return 
+
+def load_chain_graph(n=NODE_NUMBER):
+    """Load a chain graph from a test file located in the test directory."""
+    return loadmat(test_path("chain_graph.mat"))
+

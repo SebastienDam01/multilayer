@@ -47,7 +47,6 @@ def non_norm_group_eccentricity(data, list_of_single_layers, N):
     ----------
     data : A preloaded .mat  - Ex: supra_mst
     
-    
     list_of_layers: a list of numbers corresponding to the Multilayer you want to create - 
     Ex: If you want a Multilayer with fmri, pli_delta, pli theta, and pli beta using the tags: 0=fmri', '1=pli delta', 
     '2= pli theta','5 = pli beta'
