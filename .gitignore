@@ -11,3 +11,6 @@ __pycache__/
 
 # Spyder
 .spyproject/
+
+# Distribution / packaging
+.idea
