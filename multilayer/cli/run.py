@@ -33,15 +33,26 @@ def _get_parser():
     
     opt_params = parser.add_argument_group("Optional Arguments for Layer Parametrization")
     opt_params.add_argument(
+        "-l",
+        "--input-layer",
+        dest="layer_number",
+        type=bool,
+        help=(
+            "Specify the number of layer. "
+            "Default is 8."
+        ),
+        default=8,
+    )
+    opt_params.add_argument(
         "-s",
         "--input-size",
         dest="layer_size",
         type=int,
         help=(
             "Specify the number of regions/nodes per layer. "
-            "Default is 197."
+            "Default is 210."
         ),
-        default=197,
+        default=210,
     )
     opt_params.add_argument(
         "-w",
@@ -70,7 +81,7 @@ def _get_parser():
             "calculation of multilayer network metrics. "
             "Default is group_eigenvector_centrality"
         ),
-        default="group_eigenvector_centrality",
+        default="get_multi_eigenvector_centrality",
     )
 
     return parser

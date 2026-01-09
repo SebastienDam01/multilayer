@@ -1,6 +1,7 @@
 from . import config
 import numpy as np
 import pandas as pd
+'''
 import multinetx as mx
 
 def prepare_multilayer(data, list_of_layers, N):
@@ -124,7 +125,7 @@ def muxviz_aggregate(multiple_layers_list, number_layers):
     #        temp[sublists][i]=temp[sublists][i]/m
 
     return temp_mean
-
+'''
 # This function extracts data from specific nodes - e.g. FPN or DMN
 #### IMPROVEMENT: ALSO COMPUTE MEASURES WITHIN SPECIFIC SUBNETWORK IN THE FUTURE
 def mask_subnetwork(result, target, N):

@@ -14,3 +14,10 @@ __pycache__/
 
 # Distribution / packaging
 .idea
+# pixi environments
+.pixi/*
+!.pixi/config.toml
+pixi*
+
+# Plots
+plots/
