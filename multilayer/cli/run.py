@@ -81,7 +81,7 @@ def _get_parser():
             "calculation of multilayer network metrics. "
             "Default is group_eigenvector_centrality"
         ),
-        default="get_multi_eigenvector_centrality",
+        default="eigenvector_centrality",
     )
 
     return parser
