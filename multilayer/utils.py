@@ -164,14 +164,14 @@ def save_csv(data, name, tag):
     # Obs: Notice that if you want to get results only for a subnetwork, we should first do:
     #data=mask_subnetwork(result,target)
     #before saving this file
+    # cols = [tag]
+    # df = pd.DataFrame(data, columns=cols)
     if isinstance(data, dict):
         with pd.ExcelWriter(name+".xlsx") as writer:
             for key, array in data.items():
                 df = pd.DataFrame(array)
                 df.to_excel(writer, sheet_name=key, index=False, header=False)   
     else:
-        cols = [tag]
-        df = pd.DataFrame(data, columns=cols)
         df = pd.DataFrame(data)
         df.to_csv(name+'.csv')
     
