@@ -50,9 +50,9 @@ def _get_parser():
         type=int,
         help=(
             "Specify the number of regions/nodes per layer. "
-            "Default is 210."
+            "Default is 197."
         ),
-        default=210,
+        default=197,
     )
     opt_params.add_argument(
         "-w",

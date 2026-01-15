@@ -1,5 +1,5 @@
 import sys
-
+import numpy as np
 import scipy
 
 from . import utils, config#, viz
@@ -10,9 +10,12 @@ import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'MuxVizPy', 'src')))
 # sys.path.insert(0, os.path.abspath(os.path.join('..', 'MuxVizPy', 'src')))
 
-from MuxVizPy import build, topology, versatility, plotMux
+from MuxVizPy import build, mesoscale, topology, versatility, plotMux
+import graph_tool as gt
 
 FUNCTIONS = {
+    "modularity": mesoscale.get_mod,
+    "assortativity": mesoscale.inter_layer_assortativity,
     "connected_components": topology.get_connected_components,
     "path_statistics": topology.get_multi_path_statistics,
     "SP_similarity": topology.get_SP_similarity_matrix,
@@ -23,6 +26,7 @@ FUNCTIONS = {
     "hub_centrality": versatility.get_multi_hub_centrality,
     "auth_centrality": versatility.get_multi_auth_centrality,
     "Kcore_centrality": versatility.get_multi_Kcore_centrality,
+    
 }
 
 # ATTENTION: THIS IS THE ONLY FUNCTION THAT THE USER NEEDS TO CALCULATE ANY MULTILAYER
@@ -42,14 +46,33 @@ def multilayer(function, data, filename, colname, layers, N):
     colname: the name of the column tag in your file
     layers: number of layers # list of desired layers.
     """
-    temp = function(data, layers, N)
-    #You should include the desired subnetwork here. Now we have the whole Network.
-    sub_net = list(range(0,N)) 
-    # Ex: If you want FPN, sub_net=[16,17,18,19,20,21,28,29,30,31,93,94,123,124,133,134,163,164]
-    
-    # temp_sub_net = utils.mask_subnetwork(temp, sub_net, N)
-    # utils.save_csv(temp_sub_net, filename, colname)
-    
+    if function.__name__ == "get_mod": 
+        adj = np.tril(data)
+        idx = adj.nonzero()
+        weights = adj[idx]
+        g = gt.Graph(directed=False)
+        g.add_edge_list(np.transpose(idx))
+        
+        #add weights as an edge propetyMap
+        ew = g.new_edge_property("double")
+        ew.a = weights 
+        g.ep['weight'] = ew
+        temp = list(function(g, layers))
+    elif function.__name__ == "inter_layer_assortativity":
+        g_list = build.supra_adjacency_to_network_list(data, layers, N)
+        temp = function(g_list, layers)
+    else:
+        temp = list(function(data, layers, N))
+        #You should include the desired subnetwork here. Now we have the whole Network.
+        sub_net = list(range(0,N))
+        # Ex: If you want FPN, sub_net=[16,17,18,19,20,21,28,29,30,31,93,94,123,124,133,134,163,164]
+        
+        temp_sub_net = utils.mask_subnetwork(temp, sub_net, N)
+        temp = temp_sub_net
+        
+    # if function.__name__ == "inter_layer_assortativity":
+        
+    utils.save_csv(temp, filename, colname)
     return temp
 
 def main(argv=None):
@@ -58,12 +81,15 @@ def main(argv=None):
     
     options = _get_parser().parse_args(argv)
     
+    print(f"Computing {options.function} for {options.filename} with {options.layer_number} layers:\n")
+    
     # class Options():
     #     pass
     # options = Options()
     # options.filename = 'supra_randmst.mat'
-    # options.layer_size = 210
-    # options.function = 'get_multi_eigenvector_centrality'
+    # options.layer_size = 197
+    # options.layer_number = 8
+    # options.function = 'modularity'
     
     data = scipy.io.loadmat(options.filename)
     # Get the array for MuxVizPy
@@ -74,11 +100,10 @@ def main(argv=None):
     colname='EC_No_Mask_MST_Multi_layer_real'
     print(filename)
     print(colname)
-    print("mask_subnetwork temporarily disabled...")
     Data=supra_mst[..., 0] # Only one subject for the moment
     
     result = multilayer(FUNCTIONS[options.function], Data, filename, colname, options.layer_number, options.layer_size)
-    
+
     g_list = build.supra_adjacency_to_network_list(Data, options.layer_number, options.layer_size)
     
     # Aggregate graph for plotting
@@ -102,8 +127,7 @@ def main(argv=None):
     azim=10,
     save_path="plots/myplot.png"
 )
-
-    print("Results:", result)
+    print("Results: {}".format('\n '.join(map(str, result))))
 
 if __name__ == "__main__":
     main()

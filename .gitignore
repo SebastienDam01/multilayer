@@ -1,5 +1,6 @@
 # Outputs
 *.csv
+*.xlsx
 
 # Environments
 .env
