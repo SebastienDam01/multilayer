@@ -1,4 +1,4 @@
-from . import config
+# from . import config
 import numpy as np
 import pandas as pd
 '''
@@ -151,7 +151,7 @@ def mask_subnetwork(result, target, N):
 
 
 # This function saves data to a csv file
-def save_csv(data, name, tag):
+def save_csv(data, name, tag, output_directory):
     """
     Return a .csv file for further analysis using SPSS.
     
@@ -166,13 +166,18 @@ def save_csv(data, name, tag):
     #before saving this file
     # cols = [tag]
     # df = pd.DataFrame(data, columns=cols)
-    if isinstance(data, dict):
-        with pd.ExcelWriter(name+".xlsx") as writer:
-            for key, array in data.items():
-                df = pd.DataFrame(array)
-                df.to_excel(writer, sheet_name=key, index=False, header=False)   
+    # if isinstance(data, dict):
+    #     with pd.ExcelWriter(name+".xlsx") as writer:
+    #         for key, array in data.items():
+    #             df = pd.DataFrame(array)
+    #             df.to_excel(writer, sheet_name=key, index=False, header=False)   
+    # else:
+    print(data)
+    if isinstance(data, float):
+        df = pd.DataFrame([data])
     else:
         df = pd.DataFrame(data)
-        df.to_csv(name+'.csv')
+    print("SAVED", name)
+    df.to_csv(output_directory+'/'+name+'.csv')
     
     return

@@ -30,13 +30,33 @@ def _get_parser():
         ),
         default="supra_randmst.mat",
     )
+    opt_in.add_argument(
+        "-o",
+        "--output-func",
+        dest="output_filename",
+        type=str,
+        help=(
+            "Filename of the output data. "
+        ),
+        default="",
+    )
+    opt_in.add_argument(
+        "-od",
+        "--output-dir",
+        dest="output_directory",
+        type=str,
+        help=(
+            "Filename of the output data. "
+        ),
+        default="results",
+    )
     
     opt_params = parser.add_argument_group("Optional Arguments for Layer Parametrization")
     opt_params.add_argument(
         "-l",
         "--input-layer",
         dest="layer_number",
-        type=bool,
+        type=int,
         help=(
             "Specify the number of layer. "
             "Default is 8."
@@ -48,8 +68,10 @@ def _get_parser():
         "--input-size",
         dest="layer_size",
         type=int,
+        nargs = "*",
         help=(
-            "Specify the number of regions/nodes per layer. "
+            "Specify the number of regions/nodes per layer. " 
+            "If different number of nodes, one can enter a list as -s 20 15 30 etc. "
             "Default is 197."
         ),
         default=197,
@@ -83,7 +105,12 @@ def _get_parser():
         ),
         default="eigenvector_centrality",
     )
-
+    optional.add_argument(
+        "-p",
+        "--plot",
+        dest="plotting",
+        action=argparse.BooleanOptionalAction
+    )
     return parser
 
 
