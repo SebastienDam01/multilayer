@@ -24,7 +24,6 @@ FUNCTIONS = {
     "degree_centrality": versatility.get_multi_degree,
     "strength": versatility.compute_multi_strength_vector, # versatility.compute_multi_strength,
     "eigenvector_centrality": versatility.compute_eigenvector_centrality,
-    "hub_centrality": versatility.get_multi_hub_centrality,
     "bridge_strength": versatility.get_bridge_strength,
 }
 
@@ -120,7 +119,7 @@ def multilayer(function, data, filename, output_directory, colname, layers, N):
         temp_sub_net = utils.mask_subnetwork(temp, sub_net, N)
         temp = temp_sub_net
         
-    utils.save_csv(temp, filename, colname, output_directory)
+    # utils.save_csv(temp, filename, colname, output_directory)
     return temp
 
 def main(argv=None):
